@@ -11,7 +11,7 @@ import java.rmi.*;
 public interface CallbackClientInterface 
   extends java.rmi.Remote{
     
-    public String getName();
+    public String getName() throws java.rmi.RemoteException;
 
     public String notifyMeForNewMsg(String message) 
       throws java.rmi.RemoteException;

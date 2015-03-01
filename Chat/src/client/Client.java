@@ -11,23 +11,27 @@ import service.CallbackClientImpl;
 import service.ChatService;
 
 public class Client {
+    
+    ChatService chatService;
 
-    public Client(String host, String port) {
+    public Client(String host, String port, String username) {
         try {
             Registry registry = LocateRegistry.getRegistry(host);
 
             String registryURL = "rmi://" + host + ":" + port;
 
-            ChatService h = (ChatService) registry.lookup(registryURL + "/chat");
+            chatService = (ChatService) registry.lookup(registryURL + "/chat");
             CallbackServerInterface callbackServerInterface
                     = (CallbackServerInterface) registry.lookup(registryURL + "/callback");
 
-            callbackServerInterface.registerForCallback(new CallbackClientImpl("jad"));
+            callbackServerInterface.registerForCallback(new CallbackClientImpl(username));
 
-            // h.join("jad", 1);
-            //System.out.println(res);
         } catch (Exception e) {
             System.err.println("Error on client:" + e);
         }
+    }
+    
+    public ChatService getChatService() {
+        return chatService;
     }
 }

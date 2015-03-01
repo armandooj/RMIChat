@@ -18,7 +18,7 @@ public class ClientMainConsole {
             String host = args[0];
             String port = args[1];
 
-            client = new Client(host, port);
+            client = new Client(host, port, "User");
 
         } catch (Exception e) {
             System.err.println("Error on client:" + e);

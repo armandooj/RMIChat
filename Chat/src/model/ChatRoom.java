@@ -5,11 +5,13 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ASUS
  */
-public class ChatRoom {
+public class ChatRoom implements Serializable {
 
     private int id;
     private String name;

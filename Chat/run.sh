@@ -28,10 +28,8 @@ export CLASSPATH=.
 
 rmiregistry &
 timeout 1 sleep 2
-new_tab "java server.Server"
+new_tab "java server.ServerMainConsole localhost 9999"
 timeout 1 sleep 2
-java client.Client localhost
-java client.Client localhost
-java client.Client localhost
+
 cd ..
 cd ..

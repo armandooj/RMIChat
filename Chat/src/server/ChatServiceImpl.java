@@ -30,8 +30,8 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public void sendMsg(String msg) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void sendMsg(String msg, String user) throws RemoteException {
+        ServerMainConsole.server.csi.doCallbacks(msg, user);
     }
 
 }

@@ -4,6 +4,8 @@ import java.rmi.*;
 import java.rmi.server.*;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class implements the remote interface CallbackServerInterface.
@@ -30,6 +32,9 @@ public class CallbackServerImpl extends UnicastRemoteObject
     public synchronized void registerForCallback(
             CallbackClientInterface callbackClientObject)
             throws java.rmi.RemoteException {
+        
+        System.out.println("Test");
+        
         // store the callback object into the vector
         if (!(clientList.contains(callbackClientObject))) {
             clientList.add(callbackClientObject);
@@ -50,7 +55,7 @@ public class CallbackServerImpl extends UnicastRemoteObject
         }
     }
 
-    public synchronized void doCallbacks(String msg) throws java.rmi.RemoteException {
+    public synchronized void doCallbacks(String msg, String user) throws java.rmi.RemoteException {
         // make callback to each registered client
         System.out.println(
                 "**************************************\n"
@@ -58,9 +63,10 @@ public class CallbackServerImpl extends UnicastRemoteObject
         for (int i = 0; i < clientList.size(); i++) {
             System.out.println("doing " + i + "-th callback\n");
             // convert the vector object to a callback object
-            CallbackClientInterface nextClient = clientList.get(i);
+            CallbackClientInterface nextClient = clientList.get(i);           
             // invoke the callback method
-            nextClient.notifyMeForNewMsg(msg);
+            nextClient.notifyMeForNewMsg(user + ": " + msg);
+       
         }// end for
         System.out.println("********************************\n"
                 + "Server completed callbacks ---");

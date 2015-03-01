@@ -18,5 +18,5 @@ public interface ChatService extends Remote {
     
     public void leave(int roomId) throws RemoteException;
     
-    public void sendMsg(String msg) throws RemoteException;
+    public void sendMsg(String msg, String user) throws RemoteException;
 }

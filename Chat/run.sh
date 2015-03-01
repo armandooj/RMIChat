@@ -14,9 +14,18 @@ function timeout() {
 	perl -e 'alarm shift; exec @ARGV' "$@"; 
 }
 
+#if rmiregistry is alreay running, kill it
+PROCESS=rmiregistry
+
+if pgrep $PROCESS; then
+	echo "restarting $PROCESS"	
+	killall rmiregistry
+	timeout 1 sleep 1
+fi
+
 cd build/classes
 export CLASSPATH=.
-#killall rmiregistry
+
 rmiregistry &
 timeout 1 sleep 2
 new_tab "java server.Server"
@@ -26,5 +35,3 @@ java client.Client localhost
 java client.Client localhost
 cd ..
 cd ..
-
-#::java -cp . -Djava.rmi.server.hostname=localhost server.Server

@@ -5,29 +5,26 @@
  */
 package client;
 
-import java.rmi.*;
+import service.CallbackServerInterface;
 import java.rmi.registry.*;
+import service.CallbackClientImpl;
 import service.ChatService;
 
-/**
- *
- * @author ASUS
- */
 public class Client {
 
-    public static void main(String[] args) {
+    public Client(String host, String port) {
         try {
-            if (args.length < 1) {
-                System.out.println("Usage:java HelloClient <server host>");
-                return;
-            }
-            String host = args[0];
-// Get remote object reference
-            Registry registry
-                    = LocateRegistry.getRegistry(host);
-            ChatService h = (ChatService) registry.lookup("Hello1");
-// Remote method invocation
-            h.join("jad");
+            Registry registry = LocateRegistry.getRegistry(host);
+
+            String registryURL = "rmi://" + host + ":" + port;
+
+            ChatService h = (ChatService) registry.lookup(registryURL + "/chat");
+            CallbackServerInterface callbackServerInterface
+                    = (CallbackServerInterface) registry.lookup(registryURL + "/callback");
+
+            callbackServerInterface.registerForCallback(new CallbackClientImpl("jad"));
+
+            // h.join("jad", 1);
             //System.out.println(res);
         } catch (Exception e) {
             System.err.println("Error on client:" + e);

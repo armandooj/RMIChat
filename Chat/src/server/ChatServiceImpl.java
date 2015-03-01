@@ -8,16 +8,30 @@ package server;
 import service.ChatService;
 
 import java.rmi.*;
-/**
- *
- * @author ASUS
- */
+import java.util.List;
+import model.ChatRoom;
+
 public class ChatServiceImpl implements ChatService {
 
-    @Override
-    public void join(String name) throws RemoteException{
 
-        System.out.println("name = " + name);
+    @Override
+    public List<ChatRoom> getRooms() throws RemoteException {
+        return ServerMainConsole.server.rooms;
+    }
+
+    @Override
+    public void join(String userName, int roomId) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void leave(int roomId) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void sendMsg(String msg) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

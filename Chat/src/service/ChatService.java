@@ -6,14 +6,17 @@
 package service;
 
 import java.rmi.*;
+import java.util.List;
+import model.ChatRoom;
 
-/**
- *
- * @author ASUS
- */
+
 public interface ChatService extends Remote {
-// A method provided by the
-// remore object
 
-    public void join(String name) throws RemoteException;
+    public List<ChatRoom> getRooms() throws RemoteException;
+    
+    public void join(String userName, int roomId) throws RemoteException;
+    
+    public void leave(int roomId) throws RemoteException;
+    
+    public void sendMsg(String msg) throws RemoteException;
 }

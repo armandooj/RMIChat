@@ -5,10 +5,11 @@
  */
 package server;
 
+import server.impl.ChatServiceImpl;
 import java.rmi.server.*;
 import java.rmi.registry.*;
 import java.util.LinkedList;
-import service.CallbackServerImpl;
+import server.impl.CallbackServerImpl;
 import service.ChatService;
 
 import java.util.List;

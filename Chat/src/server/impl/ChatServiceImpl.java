@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server;
+package server.impl;
 
 import service.ChatService;
 
 import java.rmi.*;
 import java.util.List;
 import model.ChatRoom;
+import server.ServerMainConsole;
 
 public class ChatServiceImpl implements ChatService {
 

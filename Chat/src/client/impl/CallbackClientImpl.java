@@ -1,8 +1,9 @@
-package service;
+package client.impl;
 
 import java.rmi.*;
 import java.rmi.server.*;
 import client.ClientUI;
+import service.CallbackClientInterface;
 
 public class CallbackClientImpl extends UnicastRemoteObject
         implements CallbackClientInterface {

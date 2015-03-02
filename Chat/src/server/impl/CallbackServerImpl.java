@@ -1,9 +1,11 @@
-package service;
+package server.impl;
 
 import java.rmi.*;
 import java.rmi.server.*;
 import java.util.List;
 import java.util.LinkedList;
+import service.CallbackClientInterface;
+import service.CallbackServerInterface;
 
 
 public class CallbackServerImpl extends UnicastRemoteObject

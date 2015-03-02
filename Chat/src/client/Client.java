@@ -7,7 +7,7 @@ package client;
 
 import service.CallbackServerInterface;
 import java.rmi.registry.*;
-import service.CallbackClientImpl;
+import client.impl.CallbackClientImpl;
 import service.ChatService;
 
 public class Client {

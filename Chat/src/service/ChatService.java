@@ -16,6 +16,10 @@ public interface ChatService extends Remote {
     
     public void join(String userName, int roomId) throws RemoteException;
     
+    public String getHistory(int roomId) throws RemoteException;
+    
+    public String[] getParticipants(int roomId) throws RemoteException;
+    
     public void leave(int roomId) throws RemoteException;
     
     public void sendMsg(String msg, String user) throws RemoteException;

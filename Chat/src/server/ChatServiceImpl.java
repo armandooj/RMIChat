@@ -13,7 +13,6 @@ import model.ChatRoom;
 
 public class ChatServiceImpl implements ChatService {
 
-
     @Override
     public List<ChatRoom> getRooms() throws RemoteException {
         return ServerMainConsole.server.rooms;
@@ -31,7 +30,16 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void sendMsg(String msg, String user) throws RemoteException {
-        ServerMainConsole.server.csi.doCallbacks(msg, user);
+        ServerMainConsole.server.csi.doCallbacksForNewMsg(msg, user);
     }
 
+    @Override
+    public String getHistory(int roomId) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String[] getParticipants(int roomId) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

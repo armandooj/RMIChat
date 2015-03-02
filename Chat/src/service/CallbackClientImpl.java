@@ -4,11 +4,6 @@ import java.rmi.*;
 import java.rmi.server.*;
 import client.ClientUI;
 
-/**
- * This class implements the remote interface CallbackClientInterface.
- *
- * @author M. L. Liu
- */
 public class CallbackClientImpl extends UnicastRemoteObject
         implements CallbackClientInterface {
 
@@ -27,7 +22,7 @@ public class CallbackClientImpl extends UnicastRemoteObject
     @Override
     public String notifyMeForNewMsg(String message) {
         ClientUI.clientUI.addMsg(message);
-        String returnMessage = "Call back received: " + message;
+        String returnMessage = "msg: [" + message + "]";
         System.out.println(returnMessage);
         return returnMessage;
     }
@@ -40,7 +35,7 @@ public class CallbackClientImpl extends UnicastRemoteObject
 
     @Override
     public String notifyMeForUnregisteredUser(String name) throws RemoteException {
-        throw new UnsupportedOperationException("notifyMeForUnregisteredUser not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ClientUI.clientUI.removeUser(name);
+        return name;
     }
-
-}// end CallbackClientImpl class   
+}

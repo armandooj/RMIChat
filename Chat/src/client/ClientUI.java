@@ -42,7 +42,11 @@ public class ClientUI extends Frame {
     
     public void addUser(String user) {
         userList.add(user);
-    }    
+    }
+    
+    public void removeUser(String user) {
+        userList.remove(user);
+    }
     
     public void addMsg(String msg) {
         fromserver.setText(fromserver.getText() + msg + "\n");

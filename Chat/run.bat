@@ -9,13 +9,11 @@ start rmiregistry
 
 timeout 2 > NUL
 
-START java server.Server
+START java server.ServerMainConsole localhost 9999
 
-timeout 2 > NUL
+::timeout 2 > NUL
 
-java client.Client localhost
-java client.Client localhost
-java client.Client localhost
+::java client.ClientMainConsole localhost
 
 cd ..\..
 

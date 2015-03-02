@@ -50,7 +50,7 @@ public class ClientUI extends Frame {
 
     public void createUI(String str) {
 
-        setBounds(80, 80, 400, 500);
+        setBounds(80, 80, 450, 500);
         setLayout(new FlowLayout(FlowLayout.CENTER, 25, 10));
 
         title = str;
@@ -58,24 +58,31 @@ public class ClientUI extends Frame {
         setTitle("Chat");
 
         // Create controls
-        add(new Label("   Server port   "));
-        serverport = new TextField(20);
+        add(new Label("     Server port     "));
+        serverport = new TextField(23);
         add(serverport);
         serverport.setText("9999");
 
-        add(new Label("   Username   "));
-        username = new TextField(20);
+        add(new Label("     Username     "));
+        username = new TextField(23);
         add(username);
         username.setText("");        
         
         final List chatList = new List();
+        fromserver = new TextArea(10, 50);
         
         connect = new Button("Connect");
         connect.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("");
+                
+                // Make sure they wrote the username
+                if (username.getText().length() == 0) {
+                    fromserver.setText("You must write your username.");
+                    return;
+                }
+                
                 username.setEnabled(false);
                 serverport.setEnabled(false);
                 connect.setEnabled(false);
@@ -90,7 +97,7 @@ public class ClientUI extends Frame {
                     Logger.getLogger(ClientUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-                //invalidate();
+                fromserver.setText("");
             }
         });
         add(connect);
@@ -115,6 +122,12 @@ public class ClientUI extends Frame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                
+                if (serverport.isEnabled()) {
+                    fromserver.setText("You must connect first.");
+                    return;
+                }
+                
                 try {
                     client.getChatService().sendMsg(message.getText(), username.getText());
                     message.setText("");
@@ -124,19 +137,17 @@ public class ClientUI extends Frame {
             }
         });
         add(send);
-
-        fromserver = new TextArea(10, 50);
+        
         add(fromserver);
         fromserver.setEditable(false);
 
-        Label userLabel = new Label("      User list      ");
+        Label userLabel = new Label("         User list         ");
         add(userLabel);
 
-        Label roomLabel = new Label("      Room list      ");
+        Label roomLabel = new Label("         Room list         ");
         add(roomLabel);
         
-        add(userList);
-                
+        add(userList);                
         add(chatList);
         
         setVisible(true);

@@ -6,6 +6,7 @@
 package client;
 
 import java.awt.Button;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Label;
@@ -14,9 +15,12 @@ import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.List;
+import java.awt.Panel;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import model.ChatRoom;
 
 /**
@@ -33,6 +37,7 @@ public class ClientUI extends Frame {
     TextArea fromserver;
     String title;
     List userList = new List();
+    Panel panel = new Panel();
     public static ClientUI clientUI;
     
     public static void main(String[] args) {
@@ -56,6 +61,8 @@ public class ClientUI extends Frame {
 
         setBounds(80, 80, 450, 500);
         setLayout(new FlowLayout(FlowLayout.CENTER, 25, 10));
+        panel.setBounds(80, 80, 450, 300);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         title = str;
         // setStatus();
@@ -107,7 +114,9 @@ public class ClientUI extends Frame {
                     
                 } catch (RemoteException ex) {
                     Logger.getLogger(ClientUI.class.getName()).log(Level.SEVERE, null, ex);
-                }                               
+                }
+                panel.setVisible(true);     
+                validate();
             }
         });
         add(connect);
@@ -123,14 +132,18 @@ public class ClientUI extends Frame {
                 userList.removeAll();
                 chatList.removeAll();
                 client.unregisterChatServiceInterface();
+                panel.setVisible(false);   
+                validate();
             }
         });
         add(disconnect);
 
         message = new TextField(30);
-        add(message);
+        panel.add(message);
 
         send = new Button("Send message");
+        send.setMaximumSize(new Dimension(150, 50));                
+        
         send.addActionListener(new ActionListener() {
 
             @Override
@@ -149,19 +162,22 @@ public class ClientUI extends Frame {
                 }
             }
         });
-        add(send);
+        panel.add(send);
         
-        add(fromserver);
+        panel.add(Box.createRigidArea(new Dimension(0, 10))); 
+       
+        panel.add(fromserver);
         fromserver.setEditable(false);
-
-        Label userLabel = new Label("         User list         ");
-        add(userLabel);
-
-        Label roomLabel = new Label("         Room list         ");
-        add(roomLabel);
         
-        add(userList);                
-        add(chatList);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        Label userLabel = new Label("User list");
+        panel.add(userLabel);
+        
+        panel.add(userList);
+        // panel.add(chatList);
+        add(panel);
+        panel.setVisible(false);
         
         setVisible(true);
     }

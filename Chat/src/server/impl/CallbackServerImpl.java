@@ -57,11 +57,13 @@ public class CallbackServerImpl extends UnicastRemoteObject
             throws java.rmi.RemoteException {
         
         System.out.println("doCallbacksForNewMsg");
-        for (CallbackClientInterface nextClient : clientList) {
-            String part = user + ": " + msg;
-            nextClient.notifyMeForNewMsg(part);
-            ServerMainConsole.server.history += part + "\n";
-        }
+        String part = user + ": " + msg;
+        for (CallbackClientInterface nextClient : clientList) {            
+            nextClient.notifyMeForNewMsg(part);            
+        }        
+        
+        ServerMainConsole.server.writeToFile("../../history.txt", part);
+        ServerMainConsole.server.history += part + "\n";
     }
 
     public synchronized void doCallbacksForNewUser(String name)

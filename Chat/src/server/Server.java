@@ -5,6 +5,17 @@
  */
 package server;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
 import server.impl.ChatServiceImpl;
 import java.rmi.server.*;
 import java.rmi.registry.*;
@@ -13,6 +24,8 @@ import server.impl.CallbackServerImpl;
 import service.ChatService;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.ChatRoom;
 
 /**
@@ -27,6 +40,11 @@ public class Server {
     public String history = "";
 
     public Server(String host, String port) {
+        
+        System.out.println(new File("history.txt").getAbsolutePath());
+        // Read the persistent history
+        history = readFromFile("../../history.txt");
+        
         try {
 
             // Create a Hello remote object
@@ -55,5 +73,53 @@ public class Server {
             System.err.println("Error on server :" + e);
             return;
         }
+    }
+    
+    private static String readFromFile(String filename) {
+        String everything;
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(filename));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            try {
+                line = br.readLine();
+            } catch (IOException ex) {
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                try {
+                    line = br.readLine();
+                } catch (IOException ex) {
+                    Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            everything = sb.toString();
+        } finally {
+            try {
+                br.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        return everything;
+    }
+    
+    public void writeToFile(String fileName, String data) {
+        try {
+           PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fileName, true)));
+           out.println(data);
+           out.close();
+       } catch (IOException e) {
+           //exception handling left as an exercise for the reader
+       }
     }
 }

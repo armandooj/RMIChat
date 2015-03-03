@@ -8,11 +8,16 @@ package client;
 import service.CallbackServerInterface;
 import java.rmi.registry.*;
 import client.impl.CallbackClientImpl;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import service.ChatService;
 
 public class Client {
     
     ChatService chatService;
+    CallbackServerInterface callbackServerInterface;
+    CallbackClientImpl callbackImp;
 
     public Client(String host, String port, String username) {
         try {
@@ -21,10 +26,10 @@ public class Client {
             String registryURL = "rmi://" + host + ":" + port;
 
             chatService = (ChatService) registry.lookup(registryURL + "/chat");
-            CallbackServerInterface callbackServerInterface
-                    = (CallbackServerInterface) registry.lookup(registryURL + "/callback");
-
-            callbackServerInterface.registerForCallback(new CallbackClientImpl(username));
+            
+            callbackServerInterface = (CallbackServerInterface) registry.lookup(registryURL + "/callback");
+            callbackImp = new CallbackClientImpl(username);
+            callbackServerInterface.registerForCallback(callbackImp);
 
         } catch (Exception e) {
             System.err.println("Error on client:" + e);
@@ -33,5 +38,13 @@ public class Client {
     
     public ChatService getChatService() {
         return chatService;
+    }
+    
+    public void unregisterChatServiceInterface() {
+        try {
+            callbackServerInterface.unregisterForCallback(callbackImp);
+        } catch (RemoteException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

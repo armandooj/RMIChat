@@ -30,17 +30,17 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public void sendMsg(String msg, String user) throws RemoteException {
+    public void sendMsg(String msg, String user) throws RemoteException {        
         ServerMainConsole.server.csi.doCallbacksForNewMsg(msg, user);
     }
 
     @Override
     public String getHistory(int roomId) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return ServerMainConsole.server.history;              
     }
 
     @Override
-    public String[] getParticipants(int roomId) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<String> getParticipants(int roomId) throws RemoteException {
+        return ServerMainConsole.server.participants;
     }
 }

@@ -97,11 +97,17 @@ public class ClientUI extends Frame {
                     for (ChatRoom room : client.getChatService().getRooms()) {
                         chatList.add(room.getName());
                     }
+                    
+                    for (String participant : client.getChatService().getParticipants(0)) {
+                        if (!participant.equals(username.getText()))
+                            userList.add(participant);
+                    }
+                    
+                    fromserver.setText(client.getChatService().getHistory(0));
+                    
                 } catch (RemoteException ex) {
                     Logger.getLogger(ClientUI.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-                fromserver.setText("");
+                }                               
             }
         });
         add(connect);
@@ -114,6 +120,9 @@ public class ClientUI extends Frame {
                 username.setEnabled(true);
                 serverport.setEnabled(true);
                 connect.setEnabled(true);
+                userList.removeAll();
+                chatList.removeAll();
+                client.unregisterChatServiceInterface();
             }
         });
         add(disconnect);

@@ -22,7 +22,9 @@ import model.ChatRoom;
 public class Server {
 
     public List<ChatRoom> rooms;
+    public List<String> participants;
     public CallbackServerImpl csi;
+    public String history = "";
 
     public Server(String host, String port) {
         try {
@@ -45,11 +47,12 @@ public class Server {
             rooms.add(new ChatRoom(1, "Fun"));
             rooms.add(new ChatRoom(2, "Science"));
             rooms.add(new ChatRoom(3, "Serious"));
+            
+            participants = new LinkedList<>();
 
             System.out.println("Server ready");
         } catch (Exception e) {
             System.err.println("Error on server :" + e);
-            e.printStackTrace();
             return;
         }
     }

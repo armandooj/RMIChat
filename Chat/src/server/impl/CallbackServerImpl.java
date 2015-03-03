@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.LinkedList;
 import service.CallbackClientInterface;
 import service.CallbackServerInterface;
+import server.ServerMainConsole;
 
 
 public class CallbackServerImpl extends UnicastRemoteObject
@@ -33,6 +34,8 @@ public class CallbackServerImpl extends UnicastRemoteObject
             clientList.add(callbackClientObject);
             System.out.println("Registered new client ");
             doCallbacksForNewUser(callbackClientObject.getName());
+            
+            ServerMainConsole.server.participants.add(callbackClientObject.getName());
         }
     }
 
@@ -44,8 +47,9 @@ public class CallbackServerImpl extends UnicastRemoteObject
         if (clientList.remove(callbackClientObject)) {
             System.out.println("Unregistered client ");
             doCallbacksForOldUser(callbackClientObject.getName());
+            ServerMainConsole.server.participants.remove(callbackClientObject.getName());
         } else {
-            System.out.println("unregister: clientwasn't registered.");
+            System.out.println("unregister: client wasn't registered.");
         }
     }
 
@@ -54,7 +58,9 @@ public class CallbackServerImpl extends UnicastRemoteObject
         
         System.out.println("doCallbacksForNewMsg");
         for (CallbackClientInterface nextClient : clientList) {
-            nextClient.notifyMeForNewMsg(user + ": " + msg);
+            String part = user + ": " + msg;
+            nextClient.notifyMeForNewMsg(part);
+            ServerMainConsole.server.history += part + "\n";
         }
     }
 
